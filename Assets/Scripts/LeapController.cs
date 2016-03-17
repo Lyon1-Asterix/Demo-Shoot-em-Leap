@@ -16,4 +16,14 @@ public class LeapController : MonoBehaviour
         Frame frame = controller.Frame();
         Debug.Log(frame.Hands.Count);
     }
+
+    void FixedUpdate()
+    {
+
+    }
+
+    void OnDestroy()
+    {
+        controller.Dispose();
+    }
 }
