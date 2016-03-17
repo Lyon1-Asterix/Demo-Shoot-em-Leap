@@ -4,17 +4,26 @@ using Leap;
 
 public class LeapController : MonoBehaviour
 {
-    Controller controller;
+    public float rotationSpeed = 90f;
+    LeapProvider provider;
 
     void Start()
     {
-        controller = new Controller();
+        provider = GetComponent<LeapProvider>();
     }
     
     void Update()
     {
-        Frame frame = controller.Frame();
-        Debug.Log(frame.Hands.Count);
+        if(provider.IsConnected())
+        {
+            //Debug.Log("HOURRA");
+            Frame f = provider.CurrentFrame;
+            if (f.Hands.Count > 0)
+                transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+            else
+                transform.Rotate(Vector3.up, -rotationSpeed * Time.deltaTime);
+        }
+
     }
 
     void FixedUpdate()
@@ -24,6 +33,6 @@ public class LeapController : MonoBehaviour
 
     void OnDestroy()
     {
-        controller.Dispose();
+        
     }
 }
