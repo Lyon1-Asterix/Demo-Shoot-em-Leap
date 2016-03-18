@@ -2,6 +2,7 @@
 using System.Collections;
 using Leap;
 
+[RequireComponent(typeof(LeapProvider))]
 public class LeapController : MonoBehaviour
 {
     public float rotationSpeed = 90f;
@@ -11,28 +12,34 @@ public class LeapController : MonoBehaviour
     {
         provider = GetComponent<LeapProvider>();
     }
-    
+
     void Update()
     {
-        if(provider.IsConnected())
-        {
-            //Debug.Log("HOURRA");
-            Frame f = provider.CurrentFrame;
-            if (f.Hands.Count > 0)
-                transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
-            else
-                transform.Rotate(Vector3.up, -rotationSpeed * Time.deltaTime);
-        }
+        
 
     }
 
     void FixedUpdate()
     {
+        //var latestFrame = provider.CurrentFrame;
+        //provider.PerFrameFixedUpdateOffset = latestFrame.Timestamp * 1e-6f - Time.fixedTime;
 
+        if (provider.IsConnected())
+        {
+            //Debug.Log("HOURRA");
+            Frame f = provider.GetFixedFrame();
+            if (f.Hands.Count > 0)
+            {
+                Hand hand = f.Hands[0];
+                Vector3 posToSet = hand.PalmPosition.ToUnity() / 50;
+                Debug.Log(posToSet);
+                transform.position = posToSet;
+            }
+        }
     }
 
     void OnDestroy()
     {
-        
+
     }
 }

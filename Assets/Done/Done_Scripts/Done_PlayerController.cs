@@ -19,9 +19,19 @@ public class Done_PlayerController : MonoBehaviour
 	 
 	private float nextFire;
 	
+    bool IsFiring()
+    {
+        return Input.GetButton("Fire1");
+    }
+
+    Vector2 Movement()
+    {
+        return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+    }
+
 	void Update ()
 	{
-		if (Input.GetButton("Fire1") && Time.time > nextFire) 
+		if (IsFiring() && Time.time > nextFire) 
 		{
 			nextFire = Time.time + fireRate;
 			Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
@@ -31,8 +41,9 @@ public class Done_PlayerController : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-		float moveHorizontal = Input.GetAxis ("Horizontal");
-		float moveVertical = Input.GetAxis ("Vertical");
+        Vector2 inputMovement = Movement();
+		float moveHorizontal = inputMovement.x;
+        float moveVertical = inputMovement.y; 
 
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 		GetComponent<Rigidbody>().velocity = movement * speed;
