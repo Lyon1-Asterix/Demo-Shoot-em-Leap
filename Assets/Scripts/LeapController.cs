@@ -31,9 +31,7 @@ public class LeapController : MonoBehaviour
             {
                 Hand hand = f.Hands[0];
 				Vector3 posToSet = hand.PalmPosition.ToUnity() / scale;
-                Debug.Log(posToSet);
 				PlanePosition = new Vector3 (posToSet.x, 0, - posToSet.z);
-				transform.position = PlanePosition;
             }
         }
     }

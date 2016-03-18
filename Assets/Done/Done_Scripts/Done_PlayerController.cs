@@ -26,7 +26,9 @@ public class Done_PlayerController : MonoBehaviour
 
     Vector2 Movement()
     {
-        return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        //return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+		Vector3 planePosition = GameObject.FindGameObjectWithTag("LeapController").GetComponent<LeapController>().PlanePosition;
+		return new Vector2 (planePosition.x, planePosition.z);
     }
 
 	void Update ()
