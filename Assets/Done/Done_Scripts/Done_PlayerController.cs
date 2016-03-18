@@ -21,7 +21,8 @@ public class Done_PlayerController : MonoBehaviour
 	
     bool IsFiring()
     {
-        return Input.GetButton("Fire1");
+        //return Input.GetButton("Fire1");
+        return GameObject.FindGameObjectWithTag("LeapController").GetComponent<LeapController>().Firing;
     }
 
     Vector2 Movement()
