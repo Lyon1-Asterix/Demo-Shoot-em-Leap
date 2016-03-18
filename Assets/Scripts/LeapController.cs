@@ -6,7 +6,12 @@ using Leap;
 public class LeapController : MonoBehaviour
 {
     public float rotationSpeed = 90f;
-    LeapProvider provider;
+    private LeapProvider provider;
+
+	// Facteur d'échelle du déplacement de la main
+	public float scale = 50;
+	// Position de la main dans le plan
+	public Vector3 PlanePosition { get; private set; }
 
     void Start()
     {
@@ -15,25 +20,20 @@ public class LeapController : MonoBehaviour
 
     void Update()
     {
-        
-
-    }
+	}
 
     void FixedUpdate()
     {
-        //var latestFrame = provider.CurrentFrame;
-        //provider.PerFrameFixedUpdateOffset = latestFrame.Timestamp * 1e-6f - Time.fixedTime;
-
         if (provider.IsConnected())
         {
-            //Debug.Log("HOURRA");
             Frame f = provider.GetFixedFrame();
             if (f.Hands.Count > 0)
             {
                 Hand hand = f.Hands[0];
-                Vector3 posToSet = hand.PalmPosition.ToUnity() / 50;
+				Vector3 posToSet = hand.PalmPosition.ToUnity() / scale;
                 Debug.Log(posToSet);
-                transform.position = posToSet;
+				PlanePosition = new Vector3 (posToSet.x, 0, - posToSet.z);
+				transform.position = PlanePosition;
             }
         }
     }
